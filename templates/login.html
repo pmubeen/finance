@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+    {% block title %}
+    Log In
+    {% endblock %}
+
+    {% block main %}
+    {% if correct %}
+    <div class="col-12 d-flex justify-content-center">
+        <div class="alert alert-danger">
+            Incorrect username or password. Please enter the right username and password.
+        </div>
+    </div>
+    {% endif %}
+    <div class="justify-content-center" id="graycontainer">
+        <form action="/login" method="post">
+            <p class="h3 mb-4" style="color:rgb(87, 87, 87);">Login</p>
+            <div class="form-group">
+                <input autocomplete="off" id="username" autofocus class="form-control" name="username" placeholder="Username" type="text">
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="password" name="password" placeholder="Password" type="password">
+            </div>
+            <button class="btn btn-primary" id="submit" type="submit" disabled>Log In</button>
+        </form>
+    </div>
+    <script>
+        function checkField() {
+            setInterval(function() {
+                if (username.value == '' || password.value == '') {
+                    document.querySelector('#submit').disabled = true;
+                } else {
+                    document.querySelector('#submit').disabled = false;
+                }
+            }, 100);
+        }
+        checkField();
+    </script>
+    {% endblock %}

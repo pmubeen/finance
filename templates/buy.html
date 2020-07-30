@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+    {% block title %}
+        Buy
+    {% endblock %}
+    {% block main %}
+        {% if error %}
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger">
+                    {{e}}
+                </div>
+            </div>
+        {% endif %}
+        <div class="justify-content-center" id="graycontainer">
+            <form action="/buy" method="POST">
+                <div class="form-group">
+                    <p class="h3 mb-4" style="color:rgb(87, 87, 87);">Buy</p>
+                    <label for="stocks" id="doer-text">Enter stock symbol</label>
+                    <input class="form-control" type="text" id="stocks" name="stocks">
+                </div>
+                <div class="form-group">
+                    <label for="shares" id="doer-text">Enter amount of shares</label>
+                    <input class="form-control" type="number" id="shares" name="shares">
+                </div>
+                <div class="form-group">
+                    <button id="submit" type="submit" class="btn btn-primary" disabled>Buy</button>
+                </div>
+            </form>
+        </div>
+        <style>
+            #doer-text {
+                text-align: center;
+                display: block;
+            }
+        </style>
+        <script>
+            function checkField() {
+            setInterval(function() {
+                if (shares.value == '' || stocks.value == '') {
+                    document.querySelector('#submit').disabled = true;
+                } else {
+                    if (shares.value > 0) {
+                        document.querySelector('#submit').disabled = false;
+                    } else {
+                        document.querySelector('#submit').disabled = true;
+                    }
+                }
+            }, 100);
+        }
+        checkField();
+        </script>
+    {% endblock %}

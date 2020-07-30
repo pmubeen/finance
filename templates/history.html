@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+    {% block title %}
+    History
+    {% endblock %}
+    {% block main %}
+        <div class="justify-content-center" id="graycontainer">
+            {% if error %}
+                <p class="h3">No stocks bought yet</p>
+            {% else %}
+            <p class="h3 mb-4" style="color:rgb(87, 87, 87);">History</p>
+                <div class="table-responsive" style="padding:0px">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Symbol</th>
+                                <th>Shares</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in history %}
+                            <tr>
+                                <td>{{entry["time"]}}</td>
+                                <td>{{entry["symbol"]}}</td>
+                                <td class="shares" style="color:black; border-color:black">{{entry["shares"]}}</td>
+                                <td>{{entry["price"]}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+        <script>
+            var shares = document.getElementsByClassName("shares")
+            for (var i = 0; i < shares.length; i++) {
+                curr = shares[i];
+                if (curr.childNodes[0].nodeValue < 0) {
+                    curr.style.backgroundColor = "rgb(245,198,203)";
+                    curr.childNodes[0].nodeValue = "Bought: " + curr.childNodes[0].nodeValue + " shares";
+                }
+                else {
+                    curr.style.backgroundColor = "rgb(195,230,203)";
+                    curr.childNodes[0].nodeValue = "Sold: " + curr.childNodes[0].nodeValue + " shares";
+                }
+            }
+        </script>
+    {% endblock %}

@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+    {% block title%}
+        Register
+    {% endblock %}
+
+    {% block main %}
+    {% if user_exists %}
+        <div class="col-12 d-flex justify-content-center">
+            <div class="alert alert-danger">
+                Username is taken. Please enter a new unique username.
+            </div>
+        </div>
+    {% endif %}
+    <div class="justify-content-center" id="graycontainer">
+        <form action="/register" method="post">
+            <div class="form-group">
+                <p class="h3 mb-4" style="color:rgb(87, 87, 87);">Register</p>
+                <label for="username" id="doer-text">Enter a username: </label>
+                <input class="form-control" type="text" id="username" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <label for="password" id="doer-text">Enter a password: </label>
+                <input class="form-control" type="password" id="password" name="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="password" id="doer-text">Retype the password: </label>
+                <input class="form-control" type="password" id="password2" name="pasword2" placeholder="Password">
+                <small id="dont-match" class="form-text text-muted" style="display:none;">
+                    Passwords dont match.
+                </small>
+            </div>
+            <div class="form-group">
+                <button id="submit" type="submit" class="btn btn-primary" disabled>Submit</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function checkField() {
+            setInterval(function() {
+                if (username.value == '' || password.value == '' || password2.value == '') {
+                    document.querySelector('#submit').disabled = true;
+                } else {
+                    if (password.value == password2.value) {
+                        document.querySelector('#submit').disabled = false;
+                        document.getElementById('dont-match').style.display = 'none';
+                    } else {
+                        document.querySelector('#submit').disabled = true;
+                        document.getElementById('dont-match').style.display = 'block';
+                    }
+                }
+            }, 100);
+        }
+        checkField();
+    </script>
+    <style>
+        #doer-text {
+            display: block;
+            text-align: left;
+        }
+    </style>
+    {% endblock %}

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+    {% block title %}
+    Index
+    {% endblock %}
+    {% block main %}
+    <div class="justify-content-center" id="graycontainer">
+        {% if stocks == [] %}
+        <p class="h3">No stocks bought yet.</p>
+        {% else %}
+        <p class="h3 mb-4" style="color:rgb(87, 87, 87);">Index</p>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Shares</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in stocks %}
+                        <tr>
+                            <td>{{stock['symbol']}}</td>
+                            <td>{{stock['price']}}</td>
+                            <td>{{stock['shares']}}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <th colspan="3">Cash: {{cash["cash"]}}</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+    {% endblock %}

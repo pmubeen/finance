@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+    {% block title %}
+        Quote
+    {% endblock %}
+
+    {% block main %}
+        {% if stockval == False %}
+            <div class="col-12 d-flex justify-content-center">
+                <div class="alert alert-danger">
+                    Invalid stock symbol. Please try again.
+                </div>
+            </div>
+        {% endif %}
+        <div class="justify-content-center" id="graycontainer">
+            <form action="/quote" method="POST">
+                <div class="form-group">
+                    <p class="h3 mb-4" style="color:rgb(87, 87, 87);">Quote</p>
+                    <label for="stocks" id="doer-text">Enter stock symbols (separated by a ','):</label>
+                    <input class="form-control" type="text" id="stocks" name="stocks">
+                </div>
+                <div class="form-group">
+                    <button id="submit" type="submit" class="btn btn-primary" disabled>Submit</button>
+                </div>
+            </form>
+        {% if stockval %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Symbol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in stockval%}
+                        <tr>
+                            <td>{{stock['name']}}</td>
+                            <td>{{stock['price']}}</td>
+                            <td>{{stock['symbol']}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        </div>
+        <style>
+            #doer-text {
+                text-align: center;
+                display: block;
+            }
+        </style>
+        <script>
+            document.querySelector('#stocks').onkeyup = function() {
+            if (document.querySelector('#stocks').value === '' ) {
+                document.querySelector('#submit').disabled = true;
+            } else {
+                document.querySelector('#submit').disabled = false;
+            }
+        }
+        </script>
+    {% endblock %}
