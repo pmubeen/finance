@@ -12,6 +12,7 @@ from datetime import datetime
 
 # Configure application
 app = Flask(__name__)
+app.secret_key = "13080dWOd01"
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
