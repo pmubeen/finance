@@ -1,0 +1,6 @@
+Flask
+Flask-Session
+Jinja2
+MarkupSafe
+SQLAlchemy
+Werkzeug
