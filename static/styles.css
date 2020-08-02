@@ -39,10 +39,11 @@ main img {
 }
 
 #graycontainer {
-  padding:5% 10% 5% 10%;
+  padding:2% 5% 2% 5%;
   background-color: rgb(248, 249, 250);
-  max-width: fit-content;
-  margin: auto;
+  max-width: 300px;
+  min-width: fit-content;
+  margin: 30px auto 10px auto;
   border-radius: 10px;
   border: 1px solid rgb(222, 226, 230);
 }
