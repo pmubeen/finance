@@ -38,6 +38,7 @@ app.jinja_env.filters["usd"] = usd
 app.config["SESSION_TYPE"] = "redis"
 app.config["SESSION_REDIS"] = redis.from_url("redis://127.0.0.1:6379")
 
+
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///finance.db")
 
@@ -173,7 +174,8 @@ def quote():
         for i in range(0,(len(symbol))):
             if symbol[i] != '':
                 stockval.append(lookup(symbol[i]))
-        if stockval == []:
+        print(stockval)
+        if stockval == [None]:
             return render_template("quote.html", stockval=False)
         else:
             return render_template("quote.html", isValid=isValid, stockval=stockval)
