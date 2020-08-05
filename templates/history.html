@@ -5,7 +5,7 @@
     {% block main %}
         <div class="justify-content-center" id="graycontainer">
             {% if error %}
-                <p class="h3">No stocks bought yet</p>
+                <p class="h3">No stocks bought yet.</p>
             {% else %}
             <p class="h3 mb-4" style="color:rgb(87, 87, 87);">History</p>
                 <div class="table-responsive" style="padding:0px; font-size: .8em;">
@@ -38,11 +38,11 @@
                 curr = shares[i];
                 if (curr.childNodes[0].nodeValue < 0) {
                     curr.style.backgroundColor = "rgb(245,198,203)";
-                    curr.childNodes[0].nodeValue = "Bought: " + curr.childNodes[0].nodeValue + " shares";
+                    curr.childNodes[0].nodeValue = "Sold: " + curr.childNodes[0].nodeValue + " shares";
                 }
                 else {
                     curr.style.backgroundColor = "rgb(195,230,203)";
-                    curr.childNodes[0].nodeValue = "Sold: " + curr.childNodes[0].nodeValue + " shares";
+                    curr.childNodes[0].nodeValue = "Bought: " + curr.childNodes[0].nodeValue + " shares";
                 }
             }
         </script>

@@ -20,6 +20,10 @@
                 <input class="form-control" type="text" id="username" name="username" placeholder="Username">
             </div>
             <div class="form-group">
+                <label for="security" id="doer-text">Security: Enter your phone number:</label>
+                <input class="form-control" type="security" id="security" name="security" placeholder="City name">
+            </div>
+            <div class="form-group">
                 <label for="password" id="doer-text">Enter a password: </label>
                 <input class="form-control" type="password" id="password" name="password" placeholder="Password">
             </div>
@@ -38,7 +42,7 @@
     <script>
         function checkField() {
             setInterval(function() {
-                if (username.value == '' || password.value == '' || password2.value == '') {
+                if (username.value == '' || password.value == '' || password2.value == '' || security.value == '') {
                     document.querySelector('#submit').disabled = true;
                 } else {
                     if (password.value == password2.value) {

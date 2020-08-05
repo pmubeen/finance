@@ -1,16 +1,17 @@
 import os
+import redis
+import json
 from os import environ
 
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
-import redis
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required, lookup, usd
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Configure application
 app = Flask(__name__)
@@ -30,11 +31,8 @@ def after_request(response):
 # Custom filter
 app.jinja_env.filters["usd"] = usd
 
-# Configure session to use filesystem (instead of signed cookies)
-#app.config["SESSION_FILE_DIR"] = mkdtemp()
-#app.config["SESSION_PERMANENT"] = True
-#app.config["SESSION_TYPE"] = "filesystem"
-#Session(app)
+app.config["SESSION_PERMANENT"] = True
+app.permanent_session_lifetime = timedelta(minutes=5)
 app.config["SESSION_TYPE"] = "redis"
 app.config["SESSION_REDIS"] = redis.from_url("redis://127.0.0.1:6379")
 
@@ -65,10 +63,16 @@ def index():
                 if stock.get('symbol') == all_stocks[i].get('symbol'):
                     stock['shares'] = round(float(stock['shares']),2) + round(float(all_stocks[i].get('shares')),2)
                     nostock = False
+
             if nostock:
                     stocks.append({"symbol":(all_stocks[i])['symbol'], "price":lookup(((all_stocks[i])['symbol'])).get('price'), "shares":(all_stocks[i])['shares']})
-    cash = db.execute("SELECT cash from users WHERE id=:id",id=session["user_id"])       
-    return render_template("index.html",stocks=stocks,cash=cash[0])
+    totval=0
+    for stock in stocks:
+        stock["value"]=stock["shares"]*stock["price"]
+        totval += stock["value"]
+    cash = db.execute("SELECT cash from users WHERE id=:id",id=session["user_id"]) 
+    net = cash[0].get("cash")+totval-10000    
+    return render_template("index.html",stocks=stocks,cash=cash[0],totval=round(totval,2),net=round(net,2),data=json.dumps(stocks))
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -180,7 +184,24 @@ def quote():
         else:
             return render_template("quote.html", isValid=isValid, stockval=stockval)
         
-
+@app.route("/reset",methods=["GET","POST"])
+def forgot():
+    if request.method == "GET":
+        return render_template("reset.html")
+    else:
+        security = str(request.form.get("security"))
+        new_pass = str(generate_password_hash(request.form.get("password")))
+        users = db.execute("SELECT * from users")
+        sec_passed=True
+        for user in users:
+            if not check_password_hash(user["security"],security):
+                sec_passed = False
+        if not sec_passed:
+            e=f"Incorrect response to security. Please try again"
+            return render_template("reset.html",error=True, e=e)
+        else:
+            db.execute("UPDATE users SET hash=:new_pass WHERE security=:security",new_pass=new_pass,security=security)
+            return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -189,11 +210,12 @@ def register():
     else:
         username = str(request.form.get("username"))
         p_hash = str(generate_password_hash(request.form.get("password")))
+        security = str(generate_password_hash(request.form.get("security")))
         user_exists = db.execute("SELECT * FROM users WHERE username = :username",username=username)
         if user_exists:
             return render_template("register.html",user_exists=user_exists)
         else:
-            db.execute("INSERT INTO users (username, hash) VALUES(:username, :hash)",username=username,hash=p_hash)
+            db.execute("INSERT INTO users (username, hash, security) VALUES(:username, :hash, :security)",username=username,hash=p_hash,security=security)
             return render_template("login.html")
 
 @app.route("/sell", methods=["GET", "POST"])
@@ -225,7 +247,7 @@ def sell():
         elif num_shares in range(1,totalstock+1):
             sellval = round(float(stockval['price'])*num_shares, 2)
             cash = round(float((db.execute("SELECT cash FROM users WHERE id = :id",id=session["user_id"])[0])['cash']),2)
-            db.execute("INSERT INTO history (id,symbol,shares,price,time) VALUES (:id,:symbol,:shares,:price,:time)", id=session["user_id"], symbol=stock, shares=-num_shares, price=stockval['price'],time=(datetime.now()).strftime("%d/%m/%Y %H:%M:%S"))
+            db.execute("INSERT INTO history (id,symbol,shares,price,time) VALUES (:id,:symbol,:shares,:price,:time)", id=session["user_id"], symbol=stock, shares=-num_shares, price=sellval,time=(datetime.now()).strftime("%d/%m/%Y %H:%M:%S"))
             db.execute("UPDATE users SET cash=:cash WHERE id=:id",cash=cash+sellval,id=session["user_id"])
         else:
             e = f"You dont own enough shares to sell. Shares inputted: {num_shares}, Shares currently owned {totalstock}."

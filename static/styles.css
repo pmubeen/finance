@@ -43,7 +43,7 @@ main img {
   background-color: rgb(248, 249, 250);
   max-width: 300px;
   min-width: fit-content;
-  margin: 30px auto 10px auto;
+  margin: 20px auto 10px auto;
   border-radius: 10px;
   border: 1px solid rgb(222, 226, 230);
 }
@@ -56,4 +56,15 @@ main img {
 }
 .table-responsive table {
     margin-bottom: 0px;
+}
+#graybox {
+  padding:2% 5% 2% 5%;
+  background-color: rgb(248, 249, 250);
+  margin: 20px 10px 10px 10px;
+  border-radius: 10px;
+  border: 1px solid rgb(222, 226, 230);
+}
+.alert {
+  margin-top: 20px;
+  margin-bottom: 0px;
 }
