@@ -191,12 +191,8 @@ def forgot():
     else:
         security = str(request.form.get("security"))
         new_pass = str(generate_password_hash(request.form.get("password")))
-        users = db.execute("SELECT * from users")
-        sec_passed=True
-        for user in users:
-            if not check_password_hash(user["security"],security):
-                sec_passed = False
-        if not sec_passed:
+        sec_passed = db.execute("SELECT * from users WHERE security=:security",security=security)
+        if sec_passed==[]:
             e=f"Incorrect response to security. Please try again"
             return render_template("reset.html",error=True, e=e)
         else:
@@ -210,7 +206,7 @@ def register():
     else:
         username = str(request.form.get("username"))
         p_hash = str(generate_password_hash(request.form.get("password")))
-        security = str(generate_password_hash(request.form.get("security")))
+        security = str(request.form.get("security"))
         user_exists = db.execute("SELECT * FROM users WHERE username = :username",username=username)
         if user_exists:
             return render_template("register.html",user_exists=user_exists)
