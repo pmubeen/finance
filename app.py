@@ -56,7 +56,7 @@ def index():
     stocks = []
     for i in range((len(all_stocks))):
         if stocks == []:
-            stocks.append({"symbol":(all_stocks[i])['symbol'], "price":lookup(((all_stocks[i])['symbol'])).get('price'), "shares":((all_stocks[i])['shares'])})
+            stocks.append({"symbol":(all_stocks[i])['symbol'], "price":round(lookup(((all_stocks[i])['symbol'])).get('price'),2), "shares":((all_stocks[i])['shares'])})
         else:
             nostock = True
             for stock in stocks:
@@ -65,7 +65,7 @@ def index():
                     nostock = False
 
             if nostock:
-                    stocks.append({"symbol":(all_stocks[i])['symbol'], "price":lookup(((all_stocks[i])['symbol'])).get('price'), "shares":(all_stocks[i])['shares']})
+                    stocks.append({"symbol":(all_stocks[i])['symbol'], "price":round(lookup(((all_stocks[i])['symbol'])).get('price'),2), "shares":(all_stocks[i])['shares']})
     totval=0
     for stock in stocks:
         stock["value"]=stock["shares"]*stock["price"]
