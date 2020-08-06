@@ -1,4 +1,4 @@
-# Foobar
+# Finance
 Author: Mubeen Padaniya <br />
 Finance: Version of CS50Finance made for the CS50 course.
 
