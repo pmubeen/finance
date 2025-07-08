@@ -1,0 +1,6 @@
+Terraform/*
+Terraform
+.env
+.vscode
+__pycache__
+
