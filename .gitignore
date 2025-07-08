@@ -2,3 +2,7 @@
 __pycache__
 .vscode
 noded_modules
+Terraform/google-cloud/prod/.terraform.lock.hcl
+Terraform/google-cloud/prod/terraform.tfvars
+Terraform/google-cloud/prod/terraform.tfstate
+Terraform/google-cloud/prod/.terraform/terraform.tfstate

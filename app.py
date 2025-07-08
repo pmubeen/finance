@@ -145,11 +145,12 @@ def buy():
         )
 
         db.execute(
-            "INSERT INTO history (id, symbol, shares, price, time) VALUES (:id, UPPER(:symbol), :shares, :price, :time)",
+            "INSERT INTO history (id, symbol, shares, price, time) VALUES (:id, UPPER(:symbol), :name, :shares, :price, :time)",
             id=session["user_id"],
             symbol=symbol,
             shares=shares,
             price=price,
+            name=quote["name"],
             time=datetime.now(),
         )
         return redirect("/")
