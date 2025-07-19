@@ -13,7 +13,7 @@ filelock==3.0.12
 Flask==1.1.2
 Flask-Session==0.3.2
 fmp-python==0.1.5
-gunicorn==20.0.4
+gunicorn==23.0.0
 idna==2.10
 isort==4.3.21
 itsdangerous==1.1.0
