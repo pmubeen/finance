@@ -18,4 +18,4 @@ In Windows (Powershell) <br />
 ## Local deployment
 Cd to directory and execute <br />
 ```flask run``` <br />
-Checkout web deployment at fincs50.herokuapp.com
+Checkout web deployment at [here](https://fincs50.itsmubeen.me)
