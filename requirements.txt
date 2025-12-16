@@ -9,7 +9,7 @@ click==7.1.2
 colorama==0.4.3
 cs50==5.0.4
 distlib==0.3.1
-filelock==3.0.12
+filelock==3.20.1
 Flask==1.1.2
 Flask-Session==0.3.2
 fmp-python==0.1.5
