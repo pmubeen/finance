@@ -10,7 +10,7 @@ colorama==0.4.3
 cs50==5.0.4
 distlib==0.3.1
 filelock==3.0.12
-Flask==1.1.2
+Flask==3.1.3
 Flask-Session==0.3.2
 fmp-python==0.1.5
 gunicorn==20.0.4
